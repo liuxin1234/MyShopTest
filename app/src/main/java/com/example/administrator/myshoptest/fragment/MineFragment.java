@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.example.administrator.myshoptest.MainActivity;
 import com.example.administrator.myshoptest.R;
+import com.example.administrator.myshoptest.activity.AddressListActivity;
 import com.example.administrator.myshoptest.activity.LoginActivity;
 import com.example.administrator.myshoptest.eventbus.DataSynEvent;
 import com.example.administrator.myshoptest.utils.ToastUtils;
@@ -48,30 +49,31 @@ public class MineFragment extends BaseFragment {
 
     @OnClick({R.id.img_head, R.id.text_username, R.id.txt_my_orders, R.id.txt_my_favorite, R.id.txt_my_address, R.id.btn_logout})
     public void onClick(View view) {
+        Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.img_head:
-                Intent intent_img_head = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent_img_head);
+                intent.setClass(getActivity(), LoginActivity.class);
+                startActivity(intent);
                 break;
             case R.id.text_username:
-
-                Intent intent_txt_username = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent_txt_username);
+                intent.setClass(getActivity(), LoginActivity.class);
+                startActivity(intent);
                 break;
             case R.id.txt_my_orders:
                 ToastUtils.show(getContext(),"点击我的订单");
                 break;
             case R.id.txt_my_favorite:
-                ToastUtils.show(getContext(),"点击我的收藏");
-                MainActivity activity = new MainActivity();
                 EventBus.getDefault().post(new DataSynEvent(1));
                 break;
             case R.id.txt_my_address:
-                ToastUtils.show(getContext(),"点击我的收货地址");
+                intent.setClass(getActivity(), AddressListActivity.class);
+                startActivity(intent);
                 break;
             case R.id.btn_logout:
-                Intent intent_btn = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent_btn);
+                intent.setClass(getActivity(), LoginActivity.class);
+                startActivity(intent);
+                break;
+            default:
                 break;
         }
     }

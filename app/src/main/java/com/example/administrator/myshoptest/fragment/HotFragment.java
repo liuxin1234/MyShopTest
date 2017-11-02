@@ -12,12 +12,14 @@ import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
 import com.example.administrator.myshoptest.R;
 import com.example.administrator.myshoptest.activity.TestActivity;
+import com.example.administrator.myshoptest.activity.WareDetailActivity;
 import com.example.administrator.myshoptest.adapter.HWAdapter;
 import com.example.administrator.myshoptest.adapter.baseAdapter.BaseAdapter;
 import com.example.administrator.myshoptest.adapter.decoration.DividerItemDecoration;
 import com.example.administrator.myshoptest.bean.Page;
 import com.example.administrator.myshoptest.bean.Wares;
 import com.example.administrator.myshoptest.httpUtils.Api;
+import com.example.administrator.myshoptest.httpUtils.Contants;
 import com.example.administrator.myshoptest.utils.CartProvider;
 import com.example.administrator.myshoptest.utils.ToastUtils;
 import com.example.administrator.myshoptest.widget.CnToolbar;
@@ -53,12 +55,12 @@ public class HotFragment extends BaseFragment {
     private int mCurPage = 1;
     private int mPageSize = 10;
 
-    private int mTotaPage;
+    private int mTotaPage = 1;
 
     //设置下拉刷新的状态
     private static final int STATE_NORMAL = 0;
-    private static final int STATE_REFERH = 1;
-    private static final int STATE_HORE = 2;
+    private static final int STATE_REFREH = 1;
+    private static final int STATE_MORE = 2;
 
     //当前的状态
     private int state = STATE_NORMAL;
@@ -83,7 +85,7 @@ public class HotFragment extends BaseFragment {
     @Override
     protected void initData() {
         super.initData();
-        initHotData();
+        getHotData();
         initRefreshLayout();
     }
 
@@ -110,12 +112,9 @@ public class HotFragment extends BaseFragment {
                 if (mCurPage <= mTotaPage) {
                     loadMoreData();
                 } else {
-                    Log.e(TAG, "mCurPage:" + mCurPage);
-                    Log.e(TAG, "mTotaPage:" + mTotaPage);
-                    Log.e(TAG, "onRefreshLoadMore: 1111");
-                    //Toast.makeText(mContext, "已经到底了，没有更多数据", Toast.LENGTH_SHORT).show();
-//                    setToastShow("已经到底了，没有更多数据");
+                    Toast.makeText(mContext, "无更多数据", Toast.LENGTH_LONG).show();
                     mRefreshView.finishRefreshLoadMore();
+                    mRefreshView.setLoadMore(false);
                 }
             }
         });
@@ -128,8 +127,8 @@ public class HotFragment extends BaseFragment {
      */
     private void refreshData() {
         mCurPage = 1;
-        state = STATE_REFERH;
-        initHotData();
+        state = STATE_REFREH;
+        getHotData();
     }
 
     /**
@@ -137,14 +136,14 @@ public class HotFragment extends BaseFragment {
      */
     private void loadMoreData() {
         mCurPage = ++mCurPage;
-        state = STATE_HORE;
-        initHotData();
+        state = STATE_MORE;
+        getHotData();
     }
 
     /**
      * 获取热卖商品的数据
      */
-    private void initHotData() {
+    private void getHotData() {
         Api.SERVICE.postHotWares(mCurPage, mPageSize).enqueue(new Callback<Page<Wares>>() {
             @Override
             public void onResponse(Call<Page<Wares>> call, Response<Page<Wares>> response) {
@@ -175,7 +174,9 @@ public class HotFragment extends BaseFragment {
                     @Override
                     public void OnItemClick(View view, int position) {
                         Toast.makeText(mContext, "" + position, Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getActivity(), TestActivity.class);
+                        Wares wares = mHWAdapter.getItem(position);
+                        Intent intent = new Intent(getActivity(), WareDetailActivity.class);
+                        intent.putExtra(Contants.WARE,wares);
                         startActivity(intent);
                     }
                 });
@@ -195,17 +196,19 @@ public class HotFragment extends BaseFragment {
                         DividerItemDecoration.VERTICAL_LIST));
 
                 break;
-            case STATE_REFERH:
+            case STATE_REFREH:
                 mHWAdapter.clearData();
                 mHWAdapter.addData(waresList);
                 mHotRecyclerView.scrollToPosition(0);
                 mRefreshView.finishRefresh();
                 break;
-            case STATE_HORE:
+            case STATE_MORE:
                 mHWAdapter.addData(mHWAdapter.getDatas().size(), waresList);
                 mHotRecyclerView.scrollToPosition(mHWAdapter.getDatas().size());
                 mRefreshView.finishRefreshLoadMore();
 
+                break;
+            default:
                 break;
         }
     }

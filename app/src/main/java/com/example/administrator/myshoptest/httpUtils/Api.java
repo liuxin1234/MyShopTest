@@ -10,7 +10,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.content.ContentValues.TAG;
@@ -51,7 +50,6 @@ public class Api {
             SERVICE = new Retrofit.Builder()
                         .client(httpClientBuilder.build())
                         .addConverterFactory(GsonConverterFactory.create())
-                        .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                         .baseUrl(Contants.API.BASE_URL)
                         .build().create(ApiService.class);
             Log.e(TAG, "getDefault:初始化成功 " );

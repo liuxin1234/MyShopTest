@@ -1,24 +1,28 @@
 package com.example.administrator.myshoptest.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.administrator.myshoptest.R;
+import com.example.administrator.myshoptest.activity.Base.BaseActivity;
 import com.example.administrator.myshoptest.utils.ToastUtils;
 import com.example.administrator.myshoptest.widget.ClearEditText;
-import com.example.administrator.myshoptest.widget.CnToolbar;
+import com.example.administrator.myshoptest.widget.ToolbarHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends AppCompatActivity {
 
-    @BindView(R.id.login_toolbar)
-    CnToolbar mLoginToolbar;
+/**
+ * @author 75095
+ */
+public class LoginActivity extends BaseActivity {
+
+
     @BindView(R.id.etxt_phone)
     ClearEditText mEtxtPhone;
     @BindView(R.id.etxt_pwd)
@@ -28,38 +32,62 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.txt_toReg)
     TextView mTxtToReg;
 
+    private String phone;
+    private String password;
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
-
-        showToolbar();
+    protected int getContentView() {
+        return R.layout.activity_login;
     }
 
-    private void showToolbar() {
-        mLoginToolbar.setLeftButtonOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+    @Override
+    protected void initToolbar(ToolbarHelper toolbarHelper) {
+        toolbarHelper.setTitle("登录");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    @OnClick({R.id.etxt_phone, R.id.etxt_pwd, R.id.btn_login, R.id.txt_toReg})
+    @Override
+    public void initView() {
+        initGetText();
+    }
+
+
+    private void initGetText() {
+        phone = mEtxtPhone.getText().toString();
+        password = mEtxtPwd.getText().toString();
+    }
+
+
+
+    private void login(){
+        if (phone.isEmpty()){
+            ToastUtils.show(this,"手机号不能为空!");
+        }else if (password.isEmpty()){
+            ToastUtils.show(this,"密码不能为空!");
+        }else {
+            queryUserData();
+        }
+    }
+
+    private void queryUserData() {
+
+
+    }
+
+
+    @OnClick({R.id.btn_login, R.id.txt_toReg})
     public void onClick(View view) {
+        Intent intent = new Intent();
         switch (view.getId()) {
-            case R.id.etxt_phone:
-                break;
-            case R.id.etxt_pwd:
-                break;
             case R.id.btn_login:
-                ToastUtils.show(this,"点击登录");
+                login();
                 break;
             case R.id.txt_toReg:
-                ToastUtils.show(this,"点击注册");
-
-
+                intent.setClass(LoginActivity.this,RegisterActivity.class);
+                startActivity(intent);
+                break;
+            default:
                 break;
         }
     }

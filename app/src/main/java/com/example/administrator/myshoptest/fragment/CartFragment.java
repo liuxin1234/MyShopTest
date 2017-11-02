@@ -59,6 +59,7 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void showToolbar() {
+        mCartToolbar.hideSearchView();
         mCartToolbar.showTitleView();
         mCartToolbar.setTitle("购物车");
         mCartToolbar.getRightButton().setVisibility(View.VISIBLE);
@@ -75,7 +76,6 @@ public class CartFragment extends BaseFragment implements View.OnClickListener {
 
     private void showData() {
         List<ShoppingCart> carts = mCartProvider.getAll();
-
         mCartAdapter = new CartAdapter(mContext,carts,mCheckboxAll,mTxtTotal);
         mRecyclerView.setAdapter(mCartAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));

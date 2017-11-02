@@ -97,6 +97,7 @@ public class HomeCatgoryAdapter extends RecyclerView.Adapter<HomeCatgoryAdapter.
 
         }
 
+        @Override
         @OnClick({ R.id.imgview_big, R.id.imgview_small_top, R.id.imgview_small_bottom})
         public void onClick(View view) {
             /**
@@ -122,13 +123,15 @@ public class HomeCatgoryAdapter extends RecyclerView.Adapter<HomeCatgoryAdapter.
                     HomeCampaign campaign = homeCampaignList.get(getLayoutPosition());
                     switch (view.getId()) {
                         case R.id.imgview_big:
-                            mOnCampaignClickListener.Onclick(view,campaign.getCpOne());
+                            mOnCampaignClickListener.onclick(view,campaign.getCpOne());
                             break;
                         case R.id.imgview_small_top:
-                            mOnCampaignClickListener.Onclick(view,campaign.getCpTwo());
+                            mOnCampaignClickListener.onclick(view,campaign.getCpTwo());
                             break;
                         case R.id.imgview_small_bottom:
-                            mOnCampaignClickListener.Onclick(view,campaign.getCpThree());
+                            mOnCampaignClickListener.onclick(view,campaign.getCpThree());
+                            break;
+                        default:
                             break;
                     }
                 }
@@ -138,7 +141,8 @@ public class HomeCatgoryAdapter extends RecyclerView.Adapter<HomeCatgoryAdapter.
     }
 
     public interface OnCampaignClickListener {
-        void Onclick(View view, Campaign campaign);
+
+        void onclick(View view, Campaign campaign);
     }
 
     public void setOnCampaignClickListener(OnCampaignClickListener campaignClickListener) {

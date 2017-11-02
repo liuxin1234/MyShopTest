@@ -82,7 +82,7 @@
                 android:drawableLeft="@drawable/icon_location"
                 android:gravity="center_vertical"
                 android:drawablePadding="20dp"
-                android:text="@string/my_favorite"
+                android:text="@string/my_addresses"
                 android:textColor="@color/black"
                 android:textSize="15sp"/>
 

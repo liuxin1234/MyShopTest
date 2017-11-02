@@ -48,10 +48,13 @@ public class CartProvider {
 
     }
 
+
     public void updata(ShoppingCart cart){
         datas.put(cart.getId().intValue(),cart);
         commit();
     }
+
+
 
     public void delete(ShoppingCart cart){
         datas.delete(cart.getId().intValue());
@@ -119,6 +122,9 @@ public class CartProvider {
         return cart;
     }
 
+    /**
+     * 代码重构
+     */
     public void put(Wares wares) {
         ShoppingCart cart = convertData(wares);
         put(cart);

@@ -11,8 +11,8 @@
 
     <Button
         android:id="@+id/btn_sub"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:background="@drawable/bg_btn_style_white"
         android:textColor="@color/black"
         android:text="-"/>
@@ -27,8 +27,8 @@
 
     <Button
         android:id="@+id/btn_add"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:background="@drawable/bg_btn_style_white"
         android:textColor="@color/black"
         android:text="+"/>

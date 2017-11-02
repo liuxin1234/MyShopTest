@@ -1,6 +1,7 @@
 package com.example.administrator.myshoptest.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,11 +13,14 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.administrator.myshoptest.R;
+import com.example.administrator.myshoptest.activity.WareListActivity;
+import com.example.administrator.myshoptest.activity.WebViewActivity;
 import com.example.administrator.myshoptest.adapter.HomeCatgoryAdapter;
 import com.example.administrator.myshoptest.adapter.decoration.CardViewtemDecortion;
 import com.example.administrator.myshoptest.bean.BannerBean;
 import com.example.administrator.myshoptest.bean.Campaign;
 import com.example.administrator.myshoptest.bean.HomeCampaign;
+import com.example.administrator.myshoptest.bean.Wares;
 import com.example.administrator.myshoptest.httpUtils.Api;
 import com.example.administrator.myshoptest.httpUtils.ApiService;
 import com.example.administrator.myshoptest.utils.ToastUtils;
@@ -105,15 +109,16 @@ public class HomeFragment extends BaseFragment {
         mHomeCatgoryAdapter = new HomeCatgoryAdapter(getActivity(), homeCampaignList);
         mHomeCatgoryAdapter.setOnCampaignClickListener(new HomeCatgoryAdapter.OnCampaignClickListener() {
             @Override
-            public void Onclick(View view, Campaign campaign) {
+            public void onclick(View view, Campaign campaign) {
                 ToastUtils.show(getContext(), "已点击该商品：" + campaign.getId());
+                Intent intent = new Intent(getActivity(), WebViewActivity.class);
+                startActivity(intent);
             }
         });
 
         mRecycleview.setAdapter(mHomeCatgoryAdapter);
         mRecycleview.addItemDecoration(new CardViewtemDecortion());
         mRecycleview.setLayoutManager(new LinearLayoutManager(getActivity()));
-        Log.e(TAG, "adapter");
     }
 
     /**

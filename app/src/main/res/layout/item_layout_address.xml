@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_consignee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="收货人"
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/tv_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="手机号"
+                android:textColor="@color/black"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="地址"
+            android:textSize="12sp"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/backColor"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/radio_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="设置默认地址"
+                android:textColor="@color/black"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <Button
+                android:id="@+id/btn_edit"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:text="编辑"
+                android:textColor="@color/black"
+                android:background="@color/white"
+                android:textSize="14sp"/>
+
+            <Button
+                android:id="@+id/btn_delete"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:text="删除"
+                android:textColor="@color/black"
+                android:background="@color/white"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -2,8 +2,29 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.example.administrator.myshoptest">
 
+    <!--允许联网 -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+    <!-- 添加必要的权限 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <!--获取wifi网络状态的信息 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <!--获取GSM（2g）、WCDMA（联通3g）等网络状态的信息  -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <!--获取sd卡写的权限，用于文件上传和下载-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!--允许读取手机状态 用于创建BmobInstallation-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
+    <!-- 短信验证登陆功能需要添加次权限来自动填充验证码，用不到可以去掉 -->
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+
+    <!--保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".ShopApplication"
@@ -19,10 +40,74 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <!-- ShareSDK的activity -->
+        <activity
+            android:name="com.mob.tools.MobUIShell"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+
+            <!-- 调用新浪原生SDK，需要注册的回调activity -->
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
+            <!-- 集成line客户端登录授权，需要添如下格式的过滤器 -->
+            <intent-filter>
+                <data android:scheme="line.1477692153"/>
+
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <!-- 填写您从Mob开发者后台中得到的Appkey和AppSecret -->
+        <meta-data
+            android:name="Mob-AppKey"
+            android:value="21f1a4c45c07b"/>
+        <meta-data
+            android:name="Mob-AppSecret"
+            android:value="2131a8d9b5f92c2983f8361cdd490663"/>
+        <!-- 集成QQ分享 -->
+        <activity
+            android:name="cn.sharesdk.tencent.qq.ReceiveActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="tencent100371282"/>
+            </intent-filter>
+        </activity>
+        <!-- 集微信或者微信朋友圈 -->
+        <activity
+            android:name="com.liux.sharesdk.demo.wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+
+
+
         <activity android:name=".activity.LoginActivity">
         </activity>
-
         <activity android:name=".activity.TestActivity"/>
+        <activity android:name=".activity.WareListActivity"/>
+        <activity android:name=".activity.WebViewActivity">
+        </activity>
+        <activity android:name=".activity.WareDetailActivity">
+        </activity>
+        <activity android:name=".activity.RegisterActivity">
+        </activity>
+
+        <activity android:name=".activity.AddressActivity"/>
+        <activity android:name=".activity.AddressListActivity"/>
     </application>
 
 </manifest>

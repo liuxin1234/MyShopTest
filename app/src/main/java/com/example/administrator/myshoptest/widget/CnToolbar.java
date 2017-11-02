@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.TintTypedArray;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
@@ -19,162 +18,189 @@ import android.widget.TextView;
 import com.example.administrator.myshoptest.R;
 
 /**
- * Created by Administrator on 2017/2/23.
+ *
+ * @author Administrator
+ * @date 2017/2/23
  */
 
 public class CnToolbar extends Toolbar {
 
-    EditText mToolbarSearchview;
-    TextView mToolbarTitle;
-    Button mToolbarRightButton;
-    Button mToolbarLeftButton;
-    private LayoutInflater mLayoutInflater;
+    private LayoutInflater mInflater;
+
     private View mView;
-    private Drawable mLeftButtonIcon;
+    private TextView mTextTitle;
+    private EditText mSearchView;
+    private Button mRightButton;
 
 
     public CnToolbar(Context context) {
-        this(context, null);
+        this(context,null);
     }
 
-    public CnToolbar(Context context, @Nullable AttributeSet attrs) {
+    public CnToolbar(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CnToolbar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CnToolbar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         initView();
-        //设置边距
-        setContentInsetsRelative(10, 10);
+        setContentInsetsRelative(10,10);
 
-        if (attrs != null) {
+        if(attrs !=null) {
             final TintTypedArray a = TintTypedArray.obtainStyledAttributes(getContext(), attrs,
-                    R.styleable.CnToolbar, defStyleAttr, 0);
-            //如果右边是图片
-            final Drawable navIcon = a.getDrawable(R.styleable.CnToolbar_rightButtonIcon);
-            if (navIcon != null) {
+                    R.styleable.CNiaoToolBar, defStyleAttr, 0);
+
+
+            final Drawable rightIcon = a.getDrawable(R.styleable.CNiaoToolBar_rightButtonIcon);
+            if (rightIcon != null) {
                 //setNavigationIcon(navIcon);
-                setRightButtonIcon(navIcon);
+                setRightButtonIcon(rightIcon);
             }
 
-            //如果右边是文字
-            CharSequence rightButtonText = a.getText(R.styleable.CnToolbar_rightButtonIcon);
-            if (rightButtonText != null) {
-                setRightButtonText(rightButtonText);
-            }
+            boolean isShowSearchView = a.getBoolean(R.styleable.CNiaoToolBar_isShowSearchView,false);
 
-            boolean isShowSearchView = a.getBoolean(R.styleable.CnToolbar_isShowSearchView, false);
+            if(isShowSearchView){
 
-            if (isShowSearchView) {
-                showTitleView();
+                showSearchView();
                 hideTitleView();
             }
 
-
-            final Drawable leftIcon = a.getDrawable(R.styleable.CnToolbar_leftButtonIcon);
-            if (leftIcon != null) {
-                setLeftButtonIcon(leftIcon);
+            CharSequence rightButtonText = a.getText(R.styleable.CNiaoToolBar_rightButtonText);
+            if(rightButtonText !=null){
+                setRightButtonText(rightButtonText);
             }
 
-
-            //读完以后进行关闭
             a.recycle();
         }
+    }
+
+    private void initView() {
+
+        if(mView == null) {
+
+            mInflater = LayoutInflater.from(getContext());
+            mView = mInflater.inflate(R.layout.toolbar, null);
+
+            mTextTitle = (TextView) mView.findViewById(R.id.toolbar_title);
+            mSearchView = (EditText) mView.findViewById(R.id.toolbar_searchview);
+            mRightButton = (Button) mView.findViewById(R.id.toolbar_rightButton);
+
+            LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL);
+
+            addView(mView, lp);
+        }
+
+
 
     }
 
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void setRightButtonIcon(Drawable icon) {
-        if (mToolbarRightButton != null){
-            mToolbarRightButton.setBackground(icon);
-            mToolbarRightButton.setVisibility(VISIBLE);
+    public void  setRightButtonIcon(Drawable icon){
+
+        if(mRightButton !=null){
+
+            mRightButton.setBackground(icon);
+            mRightButton.setVisibility(VISIBLE);
         }
 
     }
+
+    public void  setRightButtonIcon(int icon){
+
+        setRightButtonIcon(getResources().getDrawable(icon));
+    }
+
+
+    public  void setRightButtonOnClickListener(OnClickListener li){
+
+        mRightButton.setOnClickListener(li);
+    }
+
 
 
     public void setRightButtonText(CharSequence text){
-        mToolbarRightButton.setText(text);
-        mToolbarRightButton.setVisibility(VISIBLE);
+        mRightButton.setText(text);
+        mRightButton.setVisibility(VISIBLE);
     }
 
-    private void initView() {
-
-        if (mView == null) {
-            mLayoutInflater = LayoutInflater.from(getContext());
-            mView = mLayoutInflater.inflate(R.layout.toolbar, null);
-            mToolbarTitle = (TextView) mView.findViewById(R.id.toolbar_title);
-            mToolbarSearchview = (EditText) mView.findViewById(R.id.toolbar_searchview);
-            mToolbarRightButton = (Button) mView.findViewById(R.id.toolbar_rightButton);
-            mToolbarLeftButton = (Button) mView.findViewById(R.id.toolbar_leftButton);
-
-            ViewGroup.LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL);
-            addView(mView, lp);
-        }
+    public void setRightButtonText(int id){
+        setRightButtonText(getResources().getString(id));
     }
 
 
-
-    public void setRightButtonOnclickListener(OnClickListener listener){
-        mToolbarRightButton.setOnClickListener(listener);
-    }
-
-    public void setLeftButtonOnClickListener(OnClickListener listener){
-        mToolbarLeftButton.setOnClickListener(listener);
-    }
 
     public Button getRightButton(){
-        return this.mToolbarRightButton;
+
+        return this.mRightButton;
     }
 
-    public Button getLeftButton(){
-        return this.mToolbarLeftButton;
-    }
+
 
     @Override
     public void setTitle(int resId) {
+
         setTitle(getContext().getText(resId));
     }
 
     @Override
     public void setTitle(CharSequence title) {
+
         initView();
-        if (mToolbarTitle != null) {
-            mToolbarTitle.setText(title);
+        if(mTextTitle !=null) {
+            mTextTitle.setText(title);
             showTitleView();
         }
 
+
+
+
+
     }
 
-    public void showSearchView() {
-        if (mToolbarSearchview != null)
-            mToolbarSearchview.setVisibility(VISIBLE);
+
+
+    public  void showSearchView(){
+
+        if(mSearchView !=null) {
+            mSearchView.setVisibility(VISIBLE);
+        }
+
     }
 
 
-    public void hideSearchView() {
-        if (mToolbarSearchview != null)
-            mToolbarSearchview.setVisibility(GONE);
-    }
-
-    public void showTitleView() {
-        if (mToolbarTitle != null)
-            mToolbarTitle.setVisibility(VISIBLE);
-    }
-
-    public void hideTitleView() {
-        if (mToolbarTitle != null)
-            mToolbarTitle.setVisibility(GONE);
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void setLeftButtonIcon(Drawable leftButtonIcon) {
-        if (mToolbarLeftButton != null){
-            mToolbarLeftButton.setBackground(leftButtonIcon);
-            mToolbarLeftButton.setVisibility(VISIBLE);
+    public void hideSearchView(){
+        if(mSearchView !=null) {
+            mSearchView.setVisibility(GONE);
         }
     }
+
+    public void showTitleView(){
+        if(mTextTitle !=null) {
+            mTextTitle.setVisibility(VISIBLE);
+        }
+    }
+
+
+    public void hideTitleView() {
+        if (mTextTitle != null) {
+            mTextTitle.setVisibility(GONE);
+        }
+
+    }
+
+
+//
+//    private void ensureRightButtonView() {
+//        if (mRightImageButton == null) {
+//            mRightImageButton = new ImageButton(getContext(), null,
+//                    android.support.v7.appcompat.R.attr.toolbarNavigationButtonStyle);
+//            final LayoutParams lp = generateDefaultLayoutParams();
+//            lp.gravity = GravityCompat.START | (Gravity.VERTICAL_GRAVITY_MASK);
+//            mRightImageButton.setLayoutParams(lp);
+//        }
+//    }
+
+
 }

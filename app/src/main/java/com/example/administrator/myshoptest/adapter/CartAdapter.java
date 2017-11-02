@@ -35,7 +35,7 @@ public class CartAdapter extends SimpleAdapter<ShoppingCart> implements BaseAdap
 
 
 
-    public CartAdapter(Context context, List<ShoppingCart> datas, CheckBox checkBox, TextView textView) {
+    public CartAdapter(Context context, List<ShoppingCart> datas,final CheckBox checkBox, TextView textView) {
         super(context, datas, R.layout.template_cart);
         setCheckBox(checkBox);
         setTextView(textView);
@@ -58,7 +58,7 @@ public class CartAdapter extends SimpleAdapter<ShoppingCart> implements BaseAdap
         CheckBox checkBox = (CheckBox) holder.getView(R.id.checkbox);
         checkBox.setChecked(cart.isChecked());
 
-            NumberAddSubView numberAddSubView = (NumberAddSubView) holder.getView(R.id.num_control);
+        NumberAddSubView numberAddSubView = (NumberAddSubView) holder.getView(R.id.num_control);
         numberAddSubView.setValue(cart.getCount());
         numberAddSubView.setOnButtonClickListener(new NumberAddSubView.OnButtonClickListener() {
             @Override

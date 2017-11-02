@@ -27,6 +27,11 @@ public class HWAdapter extends SimpleAdapter<Wares> {
         mCartProvider = new CartProvider(mContext);
     }
 
+    public void resetLayout(int layoutId){
+        this.mLayoutResId = layoutId;
+        notifyItemRangeChanged(0,getDatas().size());
+    }
+
     @Override
     public void bindData(final BaseViewHolder holder, final Wares wares) {
 
